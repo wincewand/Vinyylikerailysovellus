@@ -1,8 +1,8 @@
 {
-  "name": "lpcollection",
+  "name": "frontend",
   "version": "1.0.0",
-  "description": "A collection of vinyls",
-  "author": "Tuomas Kasanen",
+  "description": "A Vue.js project",
+  "author": "Ville.Heiskanen <ville.heiskanen@edu.savonia.fi>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

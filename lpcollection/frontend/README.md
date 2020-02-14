@@ -1,6 +1,6 @@
-# lpcollection
+# frontend
 
-> A collection of vinyls
+> A Vue.js project
 
 ## Build Setup
 
