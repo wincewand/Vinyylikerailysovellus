@@ -37,7 +37,7 @@
     </b-card>
 -->
   </div>
-<!-- Temporary link for dev purposes, skips login -->
+<!-- Temporary link for dev purposes, skips login ---> 
 <router-link to="Overview">Skip</router-link>
   </div>
 </template>
