@@ -76,8 +76,11 @@ WSGI_APPLICATION = 'lpcollection.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'djongo',
+        'NAME': 'Vinyyli',
+        'HOST': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test',
+        'USER': 'Vinyyli',
+        'PASSWORD': 'Sovellus',
     }
 }
 
