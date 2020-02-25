@@ -16,7 +16,7 @@ export default new Router({
       path: '/Overview',
       name: 'Overview',
       component: Overview
-    }
+    },
 
   ]
 })

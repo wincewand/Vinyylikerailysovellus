@@ -19,4 +19,6 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('discogs/', include('discogs.urls')),
+    path('catalog/', include('catalog.urls'))
 ]
+"""Discogs is for fetching data from Discogs API, catalog is for database fetch"""
