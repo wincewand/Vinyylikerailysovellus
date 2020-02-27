@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import djongo
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -74,13 +75,25 @@ WSGI_APPLICATION = 'lpcollection.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'djongo',
+#        'NAME': 'Vinyyli',
+#        'HOST': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
+#        'USER': 'Vinyyli',
+#        'PASSWORD': 'Sovellus',
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'Vinyyli',
-        'HOST': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test',
-        'USER': 'Vinyyli',
-        'PASSWORD': 'Sovellus',
+        'CLIENT': {
+            'host': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
+            'username': 'Vinyyli',
+            'password': 'Sovellus',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
     }
 }
 

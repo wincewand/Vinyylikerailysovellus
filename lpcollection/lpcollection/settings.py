@@ -73,10 +73,25 @@ WSGI_APPLICATION = 'lpcollection.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+#DATABASES = {
+ #   'default': {
+  #      'ENGINE': 'djongo',
+   #     'NAME': 'Vinyyli',
+   #     'HOST': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
+   #     'USER': 'Vinyyli',
+   #     'PASSWORD': 'Sovellus',
+   # }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'djongo',
+        'CLIENT': {
+            'host': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
+            'username': 'Vinyyli',
+            'password': 'Sovellus',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
     }
 }
 
