@@ -86,6 +86,7 @@ WSGI_APPLICATION = 'lpcollection.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
+        'NAME': 'Vinyyli',
         'CLIENT': {
             'host': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
             'username': 'Vinyyli',
