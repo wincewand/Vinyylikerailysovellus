@@ -4,7 +4,7 @@
 
     <div v-if="error" class="error">{{ error }}</div>
 
-    <div v-if="post" class="content">
+    <div v-if="items" class="content">
       <h2>{{ msg }}</h2>
       <p>Here will be your collection.</p>
 
@@ -24,19 +24,18 @@
 </template>
 <!-- When importing data, it must be imported into "items"-object --->
 <script>
+
+const axios = require('axios'); //required for ajax calls
+
 export default {
   name: "Collection",
   data() {
     return {
-      loading: false,
-      post: null,
+      loading: true,
       error: null,
       msg: "This is your collection",
       selected: [],
-      items: [
-        { name: "Title 1", artist: "Somebody" },
-        { name: "Title 2", artist: "Somebody else" }
-      ]
+      items: []
     };
   },
   created() {
@@ -49,24 +48,19 @@ export default {
     $route: "fetchData"
   },
   methods: {
-    onRowSelected(items) {
+    fetchData(){
+      axios
+        .get('http://127.0.0.1:8000/catalog/fetchAll') //sends a message to server
+        .then(data => (this.items = data.data.data)) //this is stupid but works :P
+        .catch(error => (this.error = error))
+        .then(this.loading = false)
+    },
+    onRowSelected(items) { //selects a row when clicking
       this.selected = items;
     },
     
-     async fetchData () {
-      try {
-        const { data } = await this.$http.get(
-        'http://127.0.0.1:8000/catalog/fetchAll',
-          { name: "something" }
-        );
-        // do stuff
-         console.log(data);
-        this.post = "dataa";
-      } catch (err) {
-        // uh oh, didn't work, time for plan B
-        this.error = err.toString();
-      }
-  }}
+     
+  }
 };
 </script>
 

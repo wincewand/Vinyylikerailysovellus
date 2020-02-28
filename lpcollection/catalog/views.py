@@ -7,7 +7,8 @@ from django.http import HttpResponse
 
 
 def fetchAll(request):
-    return HttpResponse("You fetched all items from database")
+    response = '{"data":[{ "name": "Title 1", "artist": "Somebody" },{ "name": "Title 2", "artist": "Somebody else" }]}'
+    return HttpResponse(response)
 
 def fetchOne(request):
     return HttpResponse("You fetched one item from database")
