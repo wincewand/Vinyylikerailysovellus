@@ -10,5 +10,9 @@ def fetchAll(request):
     response = '{"data":[{ "name": "Title 1", "artist": "Somebody" },{ "name": "Title 2", "artist": "Somebody else" }]}'
     return HttpResponse(response)
 
+def addNew(request):
+    response = 'New item added'
+    return HttpResponse(response)
+
 def fetchOne(request):
     return HttpResponse("You fetched one item from database")
