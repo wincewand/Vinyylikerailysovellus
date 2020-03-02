@@ -19,4 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path('discogs/', include('discogs.urls')),
     path('admin/', admin.site.urls),
+
 ]

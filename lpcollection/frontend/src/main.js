@@ -11,6 +11,7 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
