@@ -31,7 +31,6 @@
           placeholder="Enter artist's full name"
         ></b-form-input>
       </b-form-group>
-
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
@@ -43,6 +42,7 @@
 <script>
 
 const axios = require('axios'); //required for ajax calls
+
 
 export default {
   name: "Add",
