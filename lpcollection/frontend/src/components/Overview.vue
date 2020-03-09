@@ -6,7 +6,7 @@
 
     <div v-if="items" class="content">
       <h2>{{ msg }}</h2>
-      <p>Here will be your collection.</p>
+      <p>Here will be your collection. <router-link to="Add">Add new</router-link></p>
 
       <b-table
         striped
