@@ -1,0 +1,4 @@
+djongo
+discogs
+discogs_client
+dnspython

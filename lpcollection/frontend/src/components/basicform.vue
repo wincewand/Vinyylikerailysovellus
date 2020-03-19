@@ -27,6 +27,16 @@ const basicform = {
       artist: ""
     }}
   },
+  props: ['id'],
+  created: function() {
+    if (this.id){
+      //fetch data
+      axios
+        .get('http://127.0.0.1:8000/catalog/fetchOne') //sends a message to server
+        .then(data => (this.form = data.data.data[0])) //this is stupid but works :P
+        .catch(error => (this.error = error))
+    }
+  },
   methods: {
     submitForm(evt) {
       evt.preventDefault();
