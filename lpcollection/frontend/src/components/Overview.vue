@@ -6,8 +6,10 @@
 
     <div v-if="items" class="content">
       <h2>{{ msg }}</h2>
-      <p>Here will be your collection. <router-link to="Add">Add new</router-link></p>
-
+      <p>Here will be your collection. </p>
+<button><router-link to="Add">Add new</router-link></button>
+<button><router-link :to="editUrl">Edit selected</router-link></button>
+<button @click="remove">Remove selected</button>
       <b-table
         striped
         hover
@@ -35,13 +37,25 @@ export default {
       error: null,
       msg: "This is your collection",
       selected: [],
-      items: []
+      items: [],
     };
   },
   created() {
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData();
+  },
+  computed: {
+    editUrl: function () {
+      var url;
+      if (this.selected.length == 0){
+        url = "";
+      }
+      else {
+        url = "Edit?id=" + this.selected[0].id;
+      }
+      return url;
+    }
   },
   watch: {
     // call again the method if the route changes
@@ -58,7 +72,12 @@ export default {
     onRowSelected(items) { //selects a row when clicking
       this.selected = items;
     },
-    
+    remove: function() {
+      axios
+        .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0].id) //sends a message to server
+        .then(response => (alert(response.data))) //this is stupid but works :P
+        .catch(error => (this.error = error))
+    }
      
   }
 };

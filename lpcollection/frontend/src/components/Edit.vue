@@ -1,16 +1,18 @@
 <template>
   <div>
-    <basicform/> 
+      {{id}}
+    <basicform v-bind:id="id"/> 
   </div>
 </template>
 <script>
 import basicform from './basicform.vue';
 
 export default {
-  name: "Add",
+  name: "Edit",
   components: {
      basicform
   },
+  props: ['id']
 
 };
 </script>
