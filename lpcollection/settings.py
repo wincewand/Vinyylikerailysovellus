@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import djongo
+from mongoengine import *
+import pymongo
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -89,19 +91,34 @@ WSGI_APPLICATION = 'lpcollection.wsgi.application'
 #    }
 #}
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'Vinyyli',
-        'CLIENT': {
-            'host': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
-            'username': 'Vinyyli',
-            'password': 'Sovellus',
-            'authMechanism': 'SCRAM-SHA-1'
-        }
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mongoengine',
+#         'NAME': 'Vinyyli',
+#         'CLIENT': {
+#             'host': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
+#             'username': 'Vinyyli',
+#             'password': 'Sovellus',
+#             'authMechanism': 'SCRAM-SHA-1'
+#         }
+#     }
+# }
 
+# HOST = 'localhost:27017'
+
+
+# mongoengine.connect(
+#     db='Vinyyli',
+#     host=HOST,
+#     read_preference=pymongo.ReadPreference.PRIMARY_PREFERRED
+# )
+
+connect(
+    db='Vinyyli',
+    username='Vinyyli',
+    password='Sovellus',
+    host='mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority'
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

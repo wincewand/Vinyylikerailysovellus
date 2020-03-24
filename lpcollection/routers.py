@@ -1,5 +1,5 @@
 from rest_framework import routers
-from albumi.viewsets import AlbumiViewSet
+from .albumi.viewsets import AlbumiViewSet
 
 router = routers.DefaultRouter()
 

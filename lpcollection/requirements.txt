@@ -1,4 +1,6 @@
+router
 djongo
-discogs
 discogs_client
+django-cors-headers
 dnspython
+django_rest_framework
