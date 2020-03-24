@@ -17,6 +17,7 @@
         selectable
         select-mode="single"
         :items="items"
+        :fields="fields"
         @row-selected="onRowSelected"
       ></b-table>
 
@@ -38,6 +39,20 @@ export default {
       msg: "This is your collection",
       selected: [],
       items: [],
+      fields: [
+          {
+            key: 'name',
+            sortable: true
+          },
+          {
+            key: 'artist',
+            sortable: true
+          },
+          {
+            key: 'year',
+            sortable: true,
+          }
+        ],
     };
   },
   created() {
@@ -65,7 +80,7 @@ export default {
     fetchData(){
       axios
         .get('http://127.0.0.1:8000/catalog/fetchAll') //sends a message to server
-        .then(data => (this.items = data.data.data)) //this is stupid but works :P
+        .then(data => (this.items = data.data)) 
         .catch(error => (this.error = error))
         .then(this.loading = false)
     },
@@ -75,7 +90,7 @@ export default {
     remove: function() {
       axios
         .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0].id) //sends a message to server
-        .then(response => (alert(response.data))) //this is stupid but works :P
+        .then(response => (alert(response.data))) 
         .catch(error => (this.error = error))
     }
      

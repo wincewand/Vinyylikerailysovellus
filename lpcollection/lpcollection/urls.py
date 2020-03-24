@@ -21,6 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('discogs/', include('discogs.urls')),
     path('catalog/', include('catalog.urls')),
-    path('api/', include('router.urls'))
+#    path('api/', include('router.urls'))
 ]
 """Discogs is for fetching data from Discogs API, catalog is for database fetch"""
