@@ -67,7 +67,7 @@ export default {
         url = "";
       }
       else {
-        url = "Edit?id=" + this.selected[0].id;
+        url = "Edit?id=" + this.selected[0]._id.$oid;
       }
       return url;
     }
@@ -89,7 +89,7 @@ export default {
     },
     remove: function() {
       axios
-        .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0].id) //sends a message to server
+        .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0]._id.$oid) //sends a message to server
         .then(response => (alert(response.data))) 
         .catch(error => (this.error = error))
     }

@@ -5,6 +5,7 @@ from django.db import connection
 from django.db.utils import OperationalError
 from bson import Binary, Code
 from bson.json_util import dumps
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -24,14 +25,14 @@ def fetchAll(request):
     data = Album.objects.all().values()
     return HttpResponse(dumps(data))
 
-def addNew(request):
-    response = 'New item added'
-    return HttpResponse(response)
+def addNew(request, name, artist, year):
+    Album(name=name,artist=artist, year=year).save()
+    return HttpResponse("Item added")
 
 def removeOne(request, id):
-    response = 'Item removed, id: ' + str(id)
-    return HttpResponse(response)
+    Album.objects.filter(_id=id).delete()
+    return HttpResponse("Item deleted!")
 
-def fetchOne(request):
-    response = '{"data":[{ "name": "Title 1", "artist": "Somebody","year": "1999", "id": 0 }]}'
-    return HttpResponse(response)
+def fetchOne(request, id):
+    album = Album.objects.filter(_id=id).first()
+    return HttpResponse('{"data":[{ "name": "' + album.name + '", "artist": "' + album.artist + '", "year": "' + str(album.year) + '"}]}')
