@@ -27,7 +27,7 @@ def fetchAll(request):
 
 def addNew(request, name, artist, year):
     Album(name=name,artist=artist, year=year).save()
-    return HttpResponse("Item added")
+    return HttpResponse("Item added!")
 
 def removeOne(request, id):
     Album.objects.filter(_id=id).delete()

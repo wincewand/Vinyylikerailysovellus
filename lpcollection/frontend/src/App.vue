@@ -34,4 +34,10 @@ font-size: 3em;
 body {
   background-color:#4d4365;
   }
+  a, a:visited, a:hover {
+    color:white
+  }
+  a:hover {
+    text-decoration: none;
+  }
 </style>

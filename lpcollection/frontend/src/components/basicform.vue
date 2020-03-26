@@ -43,8 +43,9 @@ const basicform = {
       axios
         .post("http://127.0.0.1:8000/catalog/addNew/" + this.form.name + "/" + this.form.artist + "/" + this.form.year) //sends a message to server
         .then(data => (alert(data.data))) 
+        .then(this.$router.push("Overview"))
         .catch(error => (this.error = error))
-        .then((this.loading = false));
+        
     },
     resetForm(evt) {
       evt.preventDefault();

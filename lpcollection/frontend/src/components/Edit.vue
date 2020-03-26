@@ -1,6 +1,5 @@
 <template>
   <div>
-      {{id}}
     <basicform v-bind:id="id"/> 
   </div>
 </template>

@@ -5,11 +5,20 @@
     <div v-if="error" class="error">{{ error }}</div>
 
     <div v-if="items" class="content">
-      <h2>{{ msg }}</h2>
-      <p>Here will be your collection. </p>
-<button><router-link to="Add">Add new</router-link></button>
-<button><router-link :to="editUrl">Edit selected</router-link></button>
-<button @click="remove">Remove selected</button>
+      <br>
+<b-form-input
+              v-model="filter"
+              type="search"
+              id="filterInput"
+              placeholder="Type to Search"
+              class="w-50 m-auto"
+            ></b-form-input>
+<br>
+<b-button><router-link to="Add">Add new</router-link></b-button>
+<b-button><router-link :to="editUrl">Edit selected</router-link></b-button>
+<b-button @click="remove">Remove selected</b-button>
+            
+<br><br>
       <b-table
         striped
         hover
@@ -19,9 +28,11 @@
         :items="items"
         :fields="fields"
         @row-selected="onRowSelected"
+        :filter="filter"
+      :filterIncludedFields="filterOn"
+      class="dataTable"
       ></b-table>
 
-      <p>Currently selected: {{selected}}</p>
     </div>
   </div>
 </template>
@@ -39,6 +50,8 @@ export default {
       msg: "This is your collection",
       selected: [],
       items: [],
+      filter: null,
+        filterOn: ['name', 'artist', 'year'],
       fields: [
           {
             key: 'name',

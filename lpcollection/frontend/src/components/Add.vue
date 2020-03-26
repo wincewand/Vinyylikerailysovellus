@@ -1,7 +1,7 @@
 <template>
   <div>
-    <basicform/> 
-    <button><router-link to="Overview">Return</router-link></button>
+    <basicform/> <br>
+    <b-button><router-link to="Overview">Return</router-link></b-button>
   </div>
 </template>
 <script>
