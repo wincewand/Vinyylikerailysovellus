@@ -16,7 +16,7 @@
 </template>
 
 <script>
-const axios = require('axios'); //required for ajax calls
+const axios = require('axios') //required for ajax calls
 const basicform = {
   name: 'basicform',
   data () {
@@ -44,7 +44,7 @@ const basicform = {
         .post("http://127.0.0.1:8000/catalog/addNew/" + this.form.name + "/" + this.form.artist + "/" + this.form.year) //sends a message to server
         .then(data => (alert(data.data))) 
         .catch(error => (this.error = error))
-        .then((this.loading = false));
+        .then((this.loading = false))
     },
     resetForm(evt) {
       evt.preventDefault();

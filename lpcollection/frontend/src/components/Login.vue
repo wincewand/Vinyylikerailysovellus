@@ -27,6 +27,7 @@
         ></b-form-input>
       </b-form-group>
 
+      <b-button type="Add user" variant="light">Add</b-button>
       <b-button type="submit" variant="light">Submit</b-button>
       <b-button type="reset" variant="secondary">Reset</b-button>
     </b-form>
@@ -43,11 +44,12 @@
 </template>
 
 <script>
+const axios = require('axios') //required for ajax calls
 export default {
-  name: 'Login',
+  name: 'login',
   data () {
     return {
-      msg: 'Login',
+      msg: 'login',
       form: {
           email: '',
           password: ''
@@ -58,6 +60,10 @@ export default {
       onSubmit(evt) {
         evt.preventDefault()
         alert(JSON.stringify(this.form))
+         axios
+        .get('http://127.0.0.1:8000/login/fetchOneUser/' + this.email) //sends a message to server
+        .then(data => (this.form = data.data.data[0])) //this is stupid but works :P
+        .catch(error => (this.error = error))
       },
       onReset(evt) {
         evt.preventDefault()
