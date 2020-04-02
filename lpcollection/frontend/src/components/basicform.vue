@@ -11,56 +11,54 @@
     </b-form-group>
     <b-button type="submit" variant="primary">Submit</b-button>
     <b-button type="reset" variant="danger">Reset</b-button>
-   
+
   </b-form>
 </template>
 
 <script>
-const axios = require('axios') //required for ajax calls
+const axios = require('axios') // required for ajax calls
 const basicform = {
   name: 'basicform',
   data () {
     return {
-    form: {
-      name: "",
-      year: "",
-      artist: ""
-    }}
+      form: {
+        name: '',
+        year: '',
+        artist: ''
+      }}
   },
   props: ['id'],
-  created: function() {
-    if (this.id){
-      //fetch data
+  created: function () {
+    if (this.id) {
+      // fetch data
       axios
-        .get('http://127.0.0.1:8000/catalog/fetchOne/' + this.id) //sends a message to server
-        .then(data => (this.form = data.data.data[0])) //this is stupid but works :P
+        .get('http://127.0.0.1:8000/catalog/fetchOne/' + this.id) // sends a message to server
+        .then(data => (this.form = data.data.data[0])) // this is stupid but works :P
         .catch(error => (this.error = error))
     }
   },
   methods: {
-    submitForm(evt) {
-      evt.preventDefault();
+    submitForm (evt) {
+      evt.preventDefault()
       axios
-        .post("http://127.0.0.1:8000/catalog/addNew/" + this.form.name + "/" + this.form.artist + "/" + this.form.year) //sends a message to server
-        .then(data => (alert(data.data))) 
+        .post('http://127.0.0.1:8000/catalog/addNew/' + this.form.name + '/' + this.form.artist + '/' + this.form.year) // sends a message to server
+        .then(data => (alert(data.data)))
         .catch(error => (this.error = error))
         .then((this.loading = false))
     },
-    resetForm(evt) {
-      evt.preventDefault();
+    resetForm (evt) {
+      evt.preventDefault()
       // Reset our form values
-      this.form.name = "";
-      this.form.year = "";
-      this.form.artist = "";
+      this.form.name = ''
+      this.form.year = ''
+      this.form.artist = ''
       // Trick to reset/clear native browser form validation state
-      this.show = false;
+      this.show = false
       this.$nextTick(() => {
-        this.show = true;
-      });
+        this.show = true
+      })
     }
   }
-};
-export default basicform;
+}
+export default basicform
 </script>
-
-

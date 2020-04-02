@@ -28,74 +28,73 @@
 <!-- When importing data, it must be imported into "items"-object --->
 <script>
 
-const axios = require('axios'); //required for ajax calls
+const axios = require('axios') // required for ajax calls
 
 export default {
-  name: "Collection",
-  data() {
+  name: 'Collection',
+  data () {
     return {
       loading: true,
       error: null,
-      msg: "This is your collection",
+      msg: 'This is your collection',
       selected: [],
       items: [],
       fields: [
-          {
-            key: 'name',
-            sortable: true
-          },
-          {
-            key: 'artist',
-            sortable: true
-          },
-          {
-            key: 'year',
-            sortable: true,
-          }
-        ],
-    };
+        {
+          key: 'name',
+          sortable: true
+        },
+        {
+          key: 'artist',
+          sortable: true
+        },
+        {
+          key: 'year',
+          sortable: true
+        }
+      ]
+    }
   },
-  created() {
+  created () {
     // fetch the data when the view is created and the data is
     // already being observed
-    this.fetchData();
+    this.fetchData()
   },
   computed: {
     editUrl: function () {
-      var url;
-      if (this.selected.length == 0){
-        url = "";
+      var url
+      if (this.selected.length === 0) {
+        url = ''
       }
       else {
-        url = "Edit?id=" + this.selected[0]._id.$oid;
+        url = 'Edit?id=' + this.selected[0]._id.$oid
       }
-      return url;
+      return url
     }
   },
   watch: {
     // call again the method if the route changes
-    $route: "fetchData"
+    $route: 'fetchData'
   },
   methods: {
-    fetchData(){
+    fetchData () {
       axios
-        .get('http://127.0.0.1:8000/catalog/fetchAll') //sends a message to server
-        .then(data => (this.items = data.data)) 
+        .get('http://127.0.0.1:8000/catalog/fetchAll') // sends a message to server
+        .then(data => (this.items = data.data))
         .catch(error => (this.error = error))
         .then(this.loading = false)
     },
-    onRowSelected(items) { //selects a row when clicking
-      this.selected = items;
+    onRowSelected (items) { // selects a row when clicking
+      this.selected = items
     },
-    remove: function() {
+    remove: function () {
       axios
-        .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0]._id.$oid) //sends a message to server
-        .then(response => (alert(response.data))) 
+        .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0]._id.$oid) // sends a message to server
+        .then(response => (alert(response.data)))
         .catch(error => (this.error = error))
     }
-     
   }
-};
+}
 </script>
 
 <!-- CSS that is limited to this element only -->

@@ -1,17 +1,17 @@
 <template>
   <div>
-    <basicform/> 
+    <basicform/>
     <button><router-link to="Overview">Return</router-link></button>
   </div>
 </template>
 <script>
-import basicform from './basicform.vue';
+import basicform from './basicform.vue'
 
 export default {
-  name: "Add",
+  name: 'Add',
   components: {
-     basicform
-  },
+    basicform
+  }
 
-};
+}
 </script>

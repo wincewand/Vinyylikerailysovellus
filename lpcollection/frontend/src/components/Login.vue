@@ -27,7 +27,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="Add user" variant="light">Add</b-button>
+      <b-button type="AddUser" variant="light">Add User</b-button>
       <b-button type="submit" variant="light">Submit</b-button>
       <b-button type="reset" variant="secondary">Reset</b-button>
     </b-form>
@@ -38,40 +38,48 @@
     </b-card>
 -->
   </div>
-<!-- Temporary link for dev purposes, skips login ---> 
+<!-- Temporary link for dev purposes, skips login --->
 <router-link to="Overview">Skip</router-link>
   </div>
 </template>
 
 <script>
-const axios = require('axios') //required for ajax calls
+const axios = require('axios') // required for ajax calls
 export default {
   name: 'login',
   data () {
     return {
       msg: 'login',
       form: {
-          email: '',
-          password: ''
-        }
+        email: '',
+        password: ''
+      }
     }
   },
-   methods: {
-      onSubmit(evt) {
-        evt.preventDefault()
-        alert(JSON.stringify(this.form))
-         axios
-        .get('http://127.0.0.1:8000/login/fetchOneUser/' + this.email) //sends a message to server
-        .then(data => (this.form = data.data.data[0])) //this is stupid but works :P
+  methods: {
+    AddUser (evt) {
+      evt.preventDefault()
+      alert(JSON.stringify(this.form))
+      axios
+        .get('http://127.0.0.1:8000/login/fetchOneUser/' + this.email) // sends a message to server
+        .then(data => (this.form = data.data.data[0])) // this is stupid but works :P
         .catch(error => (this.error = error))
-      },
-      onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.password = ''
-      }
-      }
+    },
+    onSubmit (evt) {
+      evt.preventDefault()
+      axios
+        .post('http://127.0.0.1:8000/catalog/addNewUser/' + this.form.email + '/' + this.form.password) // sends a message to server
+        .then(data => (alert(data.data)))
+        .catch(error => (this.error = error))
+        .then((this.loading = false))
+    },
+    onReset (evt) {
+      evt.preventDefault()
+      // Reset our form values
+      this.form.email = ''
+      this.form.password = ''
+    }
+  }
 }
 </script>
 
