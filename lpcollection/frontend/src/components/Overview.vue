@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div v-if="loading" class="loading">Loading...</div>
-
-    <div v-if="error" class="error">{{ error }}</div>
+    <div v-if="!done">Loading...</div>
+    <div v-if="done">Done!</div>
+    <div v-if="error">{{ error }}</div>
+    <b-modal v-model="showStatus">{{msg}}</b-modal>
 
     <div v-if="items" class="content">
       <br>
@@ -45,9 +46,10 @@ export default {
   name: "Collection",
   data() {
     return {
-      loading: true,
+      done: false,
       error: null,
-      msg: "This is your collection",
+      msg: null,
+      showStatus: false,
       selected: [],
       items: [],
       filter: null,
@@ -68,6 +70,7 @@ export default {
         ],
     };
   },
+  props: ['status'],
   created() {
     // fetch the data when the view is created and the data is
     // already being observed
@@ -86,27 +89,37 @@ export default {
     }
   },
   watch: {
+    //TODO: Get modal show status
     // call again the method if the route changes
-    $route: "fetchData"
+    $route: function () {this.fetchData()},
+    $props: function () {this.showModal()}
   },
   methods: {
     fetchData(){
+      this.done = false
       axios
         .get('http://127.0.0.1:8000/catalog/fetchAll') //sends a message to server
         .then(data => (this.items = data.data)) 
+        .then(this.done = true)
         .catch(error => (this.error = error))
-        .then(this.loading = false)
+        
     },
     onRowSelected(items) { //selects a row when clicking
       this.selected = items;
     },
     remove: function() {
+      this.done = false
       axios
         .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0]._id.$oid) //sends a message to server
-        .then(response => (alert(response.data))) 
+        .then(this.fetchData())
         .catch(error => (this.error = error))
+    },
+    showModal () {
+      switch(this.status){
+        case 200: this.msg = "Action successful!"
+      }
+    this.showStatus = true;
     }
-     
   }
 };
 </script>

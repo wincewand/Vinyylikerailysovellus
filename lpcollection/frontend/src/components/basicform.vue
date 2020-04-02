@@ -1,7 +1,7 @@
 <template>
   <b-form @submit="submitForm" @reset="resetForm">
     <b-form-group id="input-group-1" label="Record name:" label-for="input-1">
-      <b-form-input id="input-1" v-model="form.name" required placeholder="Enter record name"></b-form-input>
+      <b-form-input id="input-1" v-model="form.name" required placeholder="Enter record name" ></b-form-input>
     </b-form-group>
     <b-form-group id="input-group-2" label="Year:" label-for="input-2">
       <b-form-input id="input-2" v-model="form.year" required placeholder="Enter publishing year"></b-form-input>
@@ -11,12 +11,19 @@
     </b-form-group>
     <b-button type="submit" variant="primary">Submit</b-button>
     <b-button type="reset" variant="danger">Reset</b-button>
-   
-  </b-form>
-</template>
 
+<b-popover :show.sync="show" target="input-1" title="Popover" triggers="manual">
+        Did you mean <strong>{{this.fetched.name}}?</strong><br>
+        <b-button @click="suggestionSelected">Select</b-button>
+      </b-popover>
+  </b-form>
+
+  
+</template>
 <script>
 const axios = require('axios'); //required for ajax calls
+var _ = require('lodash');
+
 const basicform = {
   name: 'basicform',
   data () {
@@ -25,10 +32,20 @@ const basicform = {
       name: "",
       year: "",
       artist: ""
-    }}
+    },
+    fetched: {
+      name: "",
+      year: "",
+      artist: "",
+    },
+    show: false,
+    justChanged: false
+    }
   },
   props: ['id'],
   created: function() {
+    //create a delay to data fetch, so that it doesn't make too many calls
+    this.fetchMatch = _.debounce(this.fetchMatch, 300)
     if (this.id){
       //fetch data
       axios
@@ -42,8 +59,7 @@ const basicform = {
       evt.preventDefault();
       axios
         .post("http://127.0.0.1:8000/catalog/addNew/" + this.form.name + "/" + this.form.artist + "/" + this.form.year) //sends a message to server
-        .then(data => (alert(data.data))) 
-        .then(this.$router.push("Overview"))
+        .then(response => (this.$router.push("Overview?status=" + response.status)))
         .catch(error => (this.error = error))
         
     },
@@ -54,12 +70,44 @@ const basicform = {
       this.form.year = "";
       this.form.artist = "";
       // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
+     
+    },
+    fetchMatch(search) {
+      console.log("Fetching matches")
+      axios
+        .post("http://127.0.0.1:8000/discogs/fetchMatching/" + search) //sends a message to server
+        .then(data => (this.suggest(data.data.data[0]))) 
+        .catch(error => (this.error = error))
+    },
+    suggest(data) {
+      this.fetched.name = data.name
+      this.fetched.year = data.year
+      this.fetched.artist = data.artist
+      if (this.fetched.name != "") {
+        console.log("showing popover")
+        this.show = true
+      }
+        
+    },
+    suggestionSelected () {
+      this.form.name = this.fetched.name
+      this.form.year = this.fetched.year
+      this.form.artist = this.fetched.artist
+      this.show = false
+      this.justChanged = true
     }
-  }
+  },
+   watch: {
+    'form.name': function (val) {
+      //when user writes, search for matching records
+      if (!this.justChanged){
+        this.fetchMatch(val)
+      }else {
+        this.justChanged = false
+      }
+      
+    }
+    }
 };
 export default basicform;
 </script>
