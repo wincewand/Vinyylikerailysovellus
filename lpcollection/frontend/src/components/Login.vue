@@ -62,7 +62,7 @@ export default {
       alert(JSON.stringify(this.form))
       axios
         .get('http://127.0.0.1:8000/login/fetchOneUser/' + this.email) // sends a message to server
-        .then(data => (this.form = data.data.data[0])) // this is stupid but works :P
+        .then(data => (this.form = data.data.data[0])) // Tähän metodi käyttäjän tarkistukseen
         .catch(error => (this.error = error))
     },
     onSubmit (evt) {
