@@ -68,7 +68,7 @@ export default {
     onSubmit (evt) {
       evt.preventDefault()
       axios
-        .post('http://127.0.0.1:8000/catalog/addNewUser/' + this.form.email + '/' + this.form.password) // sends a message to server
+        .post('http://127.0.0.1:8000/login/addNewUser/' + this.form.email + '/' + this.form.password) // sends a message to server
         .then(data => (alert(data.data)))
         .catch(error => (this.error = error))
         .then((this.loading = false))
