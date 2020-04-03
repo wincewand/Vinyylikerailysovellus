@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div v-if="!done">Loading...</div>
-    <div v-if="done">Done!</div>
-    <div v-if="error">{{ error }}</div>
+  
     <b-modal v-model="showStatus">{{msg}}</b-modal>
 
     <div v-if="items" class="content">
@@ -75,6 +73,9 @@ export default {
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData();
+    if (this.status){
+      this.showModal()
+    }
   },
   computed: {
     editUrl: function () {
@@ -88,19 +89,12 @@ export default {
       return url;
     }
   },
-  watch: {
-    //TODO: Get modal show status
-    // call again the method if the route changes
-    $route: function () {this.fetchData()},
-    $props: function () {this.showModal()}
-  },
   methods: {
     fetchData(){
       this.done = false
       axios
         .get('http://127.0.0.1:8000/catalog/fetchAll') //sends a message to server
         .then(data => (this.items = data.data)) 
-        .then(this.done = true)
         .catch(error => (this.error = error))
         
     },
@@ -111,12 +105,15 @@ export default {
       this.done = false
       axios
         .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0]._id.$oid) //sends a message to server
-        .then(this.fetchData())
+        .then(data => this.status = data.status, this.showModal(), this.fetchData())
         .catch(error => (this.error = error))
     },
     showModal () {
       switch(this.status){
-        case 200: this.msg = "Action successful!"
+        case "200":
+        case 200:
+           this.msg = "Action successful!";break;
+        default: this.msg = "Something went wrong.";
       }
     this.showStatus = true;
     }
