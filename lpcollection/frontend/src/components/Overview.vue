@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div v-if="loading" class="loading">Loading...</div>
-
-    <div v-if="error" class="error">{{ error }}</div>
+  
+    <b-modal v-model="showStatus">{{msg}}</b-modal>
 
     <div v-if="items" class="content">
       <br>
@@ -45,9 +44,10 @@ export default {
   name: "Collection",
   data() {
     return {
-      loading: true,
+      done: false,
       error: null,
-      msg: "This is your collection",
+      msg: null,
+      showStatus: false,
       selected: [],
       items: [],
       filter: null,
@@ -68,10 +68,14 @@ export default {
         ],
     };
   },
+  props: ['status'],
   created() {
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData();
+    if (this.status){
+      this.showModal()
+    }
   },
   computed: {
     editUrl: function () {
@@ -85,28 +89,34 @@ export default {
       return url;
     }
   },
-  watch: {
-    // call again the method if the route changes
-    $route: "fetchData"
-  },
   methods: {
     fetchData(){
+      this.done = false
       axios
         .get('http://127.0.0.1:8000/catalog/fetchAll') //sends a message to server
         .then(data => (this.items = data.data)) 
         .catch(error => (this.error = error))
-        .then(this.loading = false)
+        
     },
     onRowSelected(items) { //selects a row when clicking
       this.selected = items;
     },
     remove: function() {
+      this.done = false
       axios
         .get('http://127.0.0.1:8000/catalog/removeOne/' + this.selected[0]._id.$oid) //sends a message to server
-        .then(response => (alert(response.data))) 
+        .then(data => this.status = data.status, this.showModal(), this.fetchData())
         .catch(error => (this.error = error))
+    },
+    showModal () {
+      switch(this.status){
+        case "200":
+        case 200:
+           this.msg = "Action successful!";break;
+        default: this.msg = "Something went wrong.";
+      }
+    this.showStatus = true;
     }
-     
   }
 };
 </script>

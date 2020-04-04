@@ -17,7 +17,8 @@ export default new Router({
     {
       path: '/Overview',
       name: 'Overview',
-      component: Overview
+      component: Overview,
+      props: (route) => ({ status: route.query.status })
     },
     {
       path: '/Add',
