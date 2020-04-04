@@ -27,8 +27,8 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="AddUser" variant="light">Add User</b-button>
-      <b-button type="submit" variant="light">Submit</b-button>
+      <b-button type="submit" variant="light">Add User</b-button>
+      <b-button type="UserLogin" variant="light">Submit</b-button>
       <b-button type="reset" variant="secondary">Reset</b-button>
     </b-form>
 <!---
@@ -57,12 +57,16 @@ export default {
     }
   },
   methods: {
-    AddUser (evt) {
+    UserLogin (evt) {
       evt.preventDefault()
       alert(JSON.stringify(this.form))
       axios
         .get('http://127.0.0.1:8000/login/fetchOneUser/' + this.email) // sends a message to server
-        .then(data => (this.form = data.data.data[0])) // Tähän metodi käyttäjän tarkistukseen
+        .then(data => (this.form = data.data.data[0])
+        .if(this.email === data.data.data.email && this.password === data.data.data.password) {
+        router-link to="Overview"
+        }, // Tähän metodi käyttäjän tarkistukseen
+        else(alert)
         .catch(error => (this.error = error))
     },
     onSubmit (evt) {
