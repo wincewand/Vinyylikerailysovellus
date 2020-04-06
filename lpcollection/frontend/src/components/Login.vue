@@ -63,8 +63,8 @@ export default {
       axios
         .get('http://127.0.0.1:8000/login/fetchOneUser/' + this.email) // sends a message to server
         .then(data => (this.form = data.data.data[0])
-        .if(this.email === data.data.data.email && this.password === data.data.data.password) {
-        router-link to="Overview"
+         .if(this.email === data.data.data.email && this.password === data.data.data.password) {
+         router-link to="Overview"
         }, // Tähän metodi käyttäjän tarkistukseen
         else(alert)
         .catch(error => (this.error = error))
