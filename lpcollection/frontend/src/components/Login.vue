@@ -2,8 +2,25 @@
   <div>
     <h2>{{ msg }}</h2>
 
- <div>
+ <div><b-button :pressed.sync="loginBtn" variant="primary" type="button">{{btnMessage}}</b-button>
+
     <b-form @submit="onSubmit" @reset="onReset">
+
+      <b-form-group
+        id="input-group-1"
+        label="Name:"
+        label-for="input-1"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.name"
+          type="text"
+          required
+          placeholder="Enter name"
+          
+        ></b-form-input>
+      </b-form-group>
+
       <b-form-group
         id="input-group-1"
         label="Email address:"
@@ -18,17 +35,18 @@
         ></b-form-input>
       </b-form-group>
 
+
       <b-form-group id="input-group-2" label="Password:" label-for="input-2">
         <b-form-input
           id="input-2"
           v-model="form.password"
           required
+          type="password"
           placeholder="Enter password"
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="light">Add User</b-button>
-      <b-button type="UserLogin" variant="light">Submit</b-button>
+      <b-button type="submit" variant="light">Submit</b-button>
       <b-button type="reset" variant="secondary">Reset</b-button>
     </b-form>
 <!---
@@ -50,39 +68,53 @@ export default {
   data () {
     return {
       msg: 'login',
+      loginBtn: false,
       form: {
         email: '',
-        password: ''
+        password: '',
+        name: '',
       }
     }
   },
+  computed: {
+    btnMessage: function () {
+      if (this.loginBtn)
+        return "Create Account"
+      else 
+        return "Log In"
+    }
+  },
   methods: {
-    UserLogin (evt) {
-      evt.preventDefault()
-      alert(JSON.stringify(this.form))
-      axios
-        .get('http://127.0.0.1:8000/login/fetchOneUser/' + this.email) // sends a message to server
-        .then(data => (this.form = data.data.data[0])
-         .if(this.email === data.data.data.email && this.password === data.data.data.password) {
-         router-link to="Overview"
-        }, // Tähän metodi käyttäjän tarkistukseen
-        else(alert)
-        .catch(error => (this.error = error))
-    },
     onSubmit (evt) {
-      evt.preventDefault()
+       evt.preventDefault()
+
+    if (!this.loginBtn){
       axios
-        .post('http://127.0.0.1:8000/login/addNewUser/' + this.form.email + '/' + this.form.password) // sends a message to server
-        .then(data => (alert(data.data)))
-        .catch(error => (this.error = error))
-        .then((this.loading = false))
+        .get('http://127.0.0.1:8000/login/createUser/' + this.form.name + '/' + this.form.email + '/' + this.form.password) // sends a message to server
+        .then(data => alert(data.data)) 
+    }
+    else {
+      axios
+      .get('http://127.0.0.1:8000/login/logIn/' + this.form.name + '/' + this.form.email + '/' + this.form.password) // sends a message to server
+        .then(data => this.login(data.data)) 
+    }
     },
+    login (status) {
+      if (status == true){
+        this.$cookies.set("user", this.form.name)
+        this.$router.push("Overview")
+      }
+      else {
+        alert("Login failed!")
+      }
+    },
+
     onReset (evt) {
       evt.preventDefault()
       // Reset our form values
       this.form.email = ''
       this.form.password = ''
-    }
+    },
   }
 }
 </script>
