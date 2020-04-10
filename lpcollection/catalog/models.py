@@ -7,6 +7,7 @@ class Album(models.Model):
     name = models.TextField()
     artist = models.TextField()
     year = models.IntegerField()
+    user = models.TextField()
     _id = models.ObjectIdField()
 
     # def __str__(self):

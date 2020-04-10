@@ -57,11 +57,10 @@ const basicform = {
   methods: {
     submitForm(evt) {
       evt.preventDefault();
+      status = 200;
       axios
-        .post("http://127.0.0.1:8000/catalog/addNew/" + this.form.name + "/" + this.form.artist + "/" + this.form.year) //sends a message to server
-        .then(response => (this.$router.push("Overview?status=" + response.status)))
-        .catch(error => (this.error = error))
-        
+        .post("http://127.0.0.1:8000/catalog/addNew/" + this.form.name + "/" + this.form.artist + "/" + this.form.year + '/' + $cookies.get("user")) //sends a message to server
+        .then(response => this.nextStep(response.status))
     },
     resetForm(evt) {
       evt.preventDefault();
@@ -71,6 +70,17 @@ const basicform = {
       this.form.artist = "";
       // Trick to reset/clear native browser form validation state
      
+    },
+    nextStep(status) {
+      if (this.id) { //if editing, not creating
+          axios
+          .get('http://127.0.0.1:8000/catalog/removeOne/' + this.id) //sends a message to server
+          .then(response => (this.$router.push("Overview?status=" + response.status)))
+          .catch(error => (this.error = error))
+        }
+        else {
+          this.$router.push("Overview?status=" + status)
+        }
     },
     fetchMatch(search) {
       console.log("Fetching matches")

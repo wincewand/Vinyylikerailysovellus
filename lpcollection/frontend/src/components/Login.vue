@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <h2>{{ msg }}</h2>
-
- <div><b-button :pressed.sync="loginBtn" variant="primary" type="button">{{btnMessage}}</b-button>
+ <div><br>
+   <b-button-group size="md"><br>
+     <b-button v-bind:class="{ active: loginBtn }" variant="secondary" type="button" @click="createBtn = false; loginBtn = true">Login</b-button>
+     <b-button v-bind:class="{ active: createBtn }" variant="secondary" type="button" @click="loginBtn = false; createBtn = true">Create User</b-button>
+   </b-button-group><br><br>
 
     <b-form @submit="onSubmit" @reset="onReset">
 
@@ -25,6 +26,7 @@
         id="input-group-1"
         label="Email address:"
         label-for="input-1"
+        v-if="createBtn"
       >
         <b-form-input
           id="input-1"
@@ -49,15 +51,6 @@
       <b-button type="submit" variant="light">Submit</b-button>
       <b-button type="reset" variant="secondary">Reset</b-button>
     </b-form>
-<!---
-///This is for debug purposes:
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
--->
-  </div>
-<!-- Temporary link for dev purposes, skips login --->
-<router-link to="Overview">Skip</router-link>
   </div>
 </template>
 
@@ -67,8 +60,8 @@ export default {
   name: 'login',
   data () {
     return {
-      msg: 'login',
       loginBtn: false,
+      createBtn: true,
       form: {
         email: '',
         password: '',
@@ -76,26 +69,18 @@ export default {
       }
     }
   },
-  computed: {
-    btnMessage: function () {
-      if (this.loginBtn)
-        return "Create Account"
-      else 
-        return "Log In"
-    }
-  },
   methods: {
     onSubmit (evt) {
        evt.preventDefault()
 
-    if (!this.loginBtn){
+    if (this.createBtn){
       axios
         .get('http://127.0.0.1:8000/login/createUser/' + this.form.name + '/' + this.form.email + '/' + this.form.password) // sends a message to server
         .then(data => alert(data.data)) 
     }
     else {
       axios
-      .get('http://127.0.0.1:8000/login/logIn/' + this.form.name + '/' + this.form.email + '/' + this.form.password) // sends a message to server
+      .get('http://127.0.0.1:8000/login/logIn/' + this.form.name + '/' + this.form.password) // sends a message to server
         .then(data => this.login(data.data)) 
     }
     },
@@ -121,5 +106,8 @@ export default {
 
 <!-- CSS that is limited to this element only -->
 <style scoped>
-
+.active {
+  background-color: #c8b9ed!important;
+  color: black!important;
+}
 </style>

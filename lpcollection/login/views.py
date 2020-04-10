@@ -20,9 +20,9 @@ def createUser(request, name, email, password):
     except:
         return HttpResponse("Name was already taken!")
     
-def login(request, name, email, password):
+def login(request, name, password):
 
-    user = authenticate(email=email, password=password, username=name)
+    user = authenticate(password=password, username=name)
     if user is not None:
         return HttpResponse("true")
     else:

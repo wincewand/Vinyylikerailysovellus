@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <b-container>
+    
     <h1>Vinyl Collector</h1>
     <router-view/>
     </b-container>
