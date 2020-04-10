@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'catalog',
     'corsheaders',
     'albumi',
+    'login',
     'discogs',
     'rest_framework',
 ]
