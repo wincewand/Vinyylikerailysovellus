@@ -15,13 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .routers import router
-from django.views.generic import TemplateView
+# from .routers import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('discogs/', include('discogs.urls')),
     path('catalog/', include('catalog.urls')),
-    path('api/', include('router.urls')),
-    path('album', TemplateView.as_view(template_name='index.html')),
+    path('login/', include('login.urls')),
 ]
+"""Discogs is for fetching data from Discogs API, catalog is for database fetch"""

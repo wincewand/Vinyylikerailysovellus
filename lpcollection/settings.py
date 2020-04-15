@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import djongo
 from mongoengine import *
 import pymongo
+import djongo
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,13 +23,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'e1pw3&bd@$$+%us6yb2rh9fd)5j2_$qb7$bad9uik0h&#$q44m'
+SECRET_KEY = 'j2lcfkcrj+kbd^)!djevjtap!!g7o9l**9*&c+@mbtiw37c-en'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#Allows requests from client
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -47,12 +49,15 @@ INSTALLED_APPS = [
     'discogs',
     'rest_framework',
 ]
+    
+
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -76,6 +81,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'lpcollection.wsgi.application'
 
 
@@ -83,43 +89,35 @@ WSGI_APPLICATION = 'lpcollection.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 #DATABASES = {
-#    'default': {
-#        'ENGINE': 'djongo',
-#        'NAME': 'Vinyyli',
-#        'HOST': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
-#        'USER': 'Vinyyli',
-#        'PASSWORD': 'Sovellus',
-#    }
+ #   'default': {
+  #      'ENGINE': 'djongo',
+   #     'NAME': 'Vinyyli',
+   #     'HOST': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
+   #     'USER': 'Vinyyli',
+   #     'PASSWORD': 'Sovellus',
+   # }
 #}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'mongoengine',
-#         'NAME': 'Vinyyli',
-#         'CLIENT': {
-#             'host': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
-#             'username': 'Vinyyli',
-#             'password': 'Sovellus',
-#             'authMechanism': 'SCRAM-SHA-1'
-#         }
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'Vinyyli',
+        'CLIENT': {
+            'host': 'mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority',
+            'username': 'Vinyyli',
+            'password': 'Sovellus',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
+    }
+}
 
-# HOST = 'localhost:27017'
-
-
-# mongoengine.connect(
+# connect(
 #     db='Vinyyli',
-#     host=HOST,
-#     read_preference=pymongo.ReadPreference.PRIMARY_PREFERRED
+#     engine='djongo',
+#     username='Vinyyli',
+#     password='Sovellus',
+#     host='mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority'
 # )
-
-connect(
-    db='Vinyyli',
-    username='Vinyyli',
-    password='Sovellus',
-    host='mongodb+srv://Vinyyli:Sovellus@vinyylitietokanta-ovdst.azure.mongodb.net/test?retryWrites=true&w=majority'
-)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
